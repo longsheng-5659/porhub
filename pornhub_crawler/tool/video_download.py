@@ -3,8 +3,9 @@
 #  "LastEditors": "lzkgbld"
 #  "LastEditTime": 2020/9/20 12:57
 import requests, os
-from lxml import etree
+# from lxml import etree
 from tool.mysql import ManagementMysql
+
 
 
 def por_favorites(video_id, video_file, host, user, password, name):
