@@ -8,6 +8,8 @@ def xxx():
     # db = pymysql.Connect('你的ip', '用户名', '数据库名', '表名')
     # db = pymysql.Connect('120.25.161.159', 'test', '数据库名', '表名')
     # cursor = db.cursor()
+    randomList  =   ["热门","电影"]
+    randomList2  =   ["国产","明星","性感","日本","韩国"]
     for page in range(1):
         page += 1
         url = 'https://jp.pornhub.com'
@@ -42,6 +44,7 @@ def xxx():
                     print('视频链接：' + href)
                     print('视频图片：' + poster)
                     print('视频描述：' + description)
+                    print('视频描述：' + randomList.index(0))
                     print('时长：' + time)
                     print('当前观看总量：' + visitor)
                     print('点赞率：' + Rating_rate)
