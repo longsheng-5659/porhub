@@ -1,15 +1,14 @@
-from random import random
-
-import requests
 import datetime
+import random
+import requests
 import pymysql
 from bs4 import BeautifulSoup
 def xxx():
-    # db = pymysql.Connect('你的ip', '用户名', '数据库名', '表名')
+    db = pymysql.Connect(host="120.25.161.159", user="test", password="test", port=3306, charset="utf8")
     # db = pymysql.Connect('120.25.161.159', 'test', '数据库名', '表名')
-    # cursor = db.cursor()
-    randomList  =   ["热门","电影"]
-    randomList2  =   ["国产","明星","性感","日本","韩国"]
+    cursor = db.cursor()
+    randomList = ["热门", "电影"]
+    randomList2 = ["国产", "明星", "性感", "日本", "韩国"]
     for page in range(1):
         page += 1
         url = 'https://jp.pornhub.com'
@@ -22,29 +21,40 @@ def xxx():
         li = soup.find_all('li')
         for i in li:
             if i.img and i.button:
-                # print(i)
                 try:
                     href = url + i.a['href']
-                    poster  =   i.img["src"]
-                    description  =   i.img["alt"]
+                    poster = i.img["src"]
+                    description = i.img["alt"]
                     title = i.a['title']
                     var = i.find_all('var')
                     time, visitor, release_time = var[0].string, var[1].string, var[2].string
                     Rating_rate = i.find_all('div')[-1].string
-                    time_now = str(datetime.datetime.now())[:-7]
-                    vid = "V"+str(int(random()*10000))
-                    uid =   24531
-
-                    # sql = "insert into pornhub (视频标题,时长,当前观看总量," \
-                    #       "点赞率,发布时间,视频链接,抓取时间) VALUES ('%s','%s','%s','%s','%s','%s','%s')" \
-                    #       % (title, time, looking, Rating_rate, release_time, href, time_now)
-                    # cursor.execute(sql)
-                    # db.commit()
+                    create_time = int(datetime.datetime.now().timestamp())
+                    print(create_time)
+                    vid = "V"+str(int(random.random()*10000))
+                    uid = int(random.random()*10000)
+                    print("uid"+str(uid))
+                    sources = ""
+                    # INSERT
+                    # INTO
+                    # video
+                    # (vid, uid, title, poster, description, sources, category, tag, visitor, create_time)
+                    # VALUES(1, 'V1', 24531, '闪电侠',
+                    #        'https://pic3.zhimg.com/80/v2-0c2ab2347118f8e743cf1678608230ba_720w.webp',
+                    #        '跳票多年的《闪电侠》肩负重任，它将会回溯DC宇宙的历史，利用平行宇宙的概念，改变整个原定世界观的历史，开启DC电影多元宇宙',
+                    #        '{"test": "http://media.w3.org/2010/05/video/movie_300.webm", "bunnyMovie": "http://media.w3.org/2010/05/bunny/movie.mp4", "bunnyTrailer": "http://media.w3.org/2010/05/bunny/trailer.mp4", "sintelTrailer": "http://media.w3.org/2010/05/sintel/trailer.mp4"}',
+                    #        '热门', '国产', 116800, 1679845967000);
+                    sql = "insert into videohub.video (id , vid , uid , title , poster , description , sources , category , tag , visitor , create_time) \
+                    VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % \
+                          (vid, uid, title, poster, description, sources, random.choice(randomList), random.choice(randomList2), visitor, create_time)
+                    print(sql)
+                    cursor.execute(sql)
+                    db.commit()
                     print('视频标题：' + title)
                     print('视频链接：' + href)
                     print('视频图片：' + poster)
                     print('视频描述：' + description)
-                    print('视频描述：' + randomList.index(0))
+                    print('视频描述：' + random.choice(randomList))
                     print('时长：' + time)
                     print('当前观看总量：' + visitor)
                     print('点赞率：' + Rating_rate)
@@ -53,7 +63,7 @@ def xxx():
                 except Exception:
                     pass
         print('当前已经爬取到了第' + str(page) + '页！')
-    # db.close()
+    db.close()
 
 if __name__ == '__main__':
     xxx()
