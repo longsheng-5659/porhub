@@ -149,3 +149,4 @@ def por_type(start_num, end_num, video_url, charge_type, video_file, host, user,
                 else:
                     print("视频重复:"+url)
             start_num += 1
+
