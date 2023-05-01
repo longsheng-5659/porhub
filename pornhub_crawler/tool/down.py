@@ -118,7 +118,7 @@ def xxx():
                         print('--------------------------')
                 except Exception as e:
                     print(e)
-        print('当前已经爬取到了第' + str(page) + '页！')
+        print('当前已经爬取到了第' + str(page) + '页千！')
     db.close()
 
 if __name__ == '__main__':
